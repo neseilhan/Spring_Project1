@@ -42,8 +42,15 @@ public class CustomerController {
 
     }
 
+//    @GetMapping("/find/{gender}")
+//    public List<Customer> findByGender(@PathVariable("gender") Customer.Gender gender){
+//        return  this.customerRepo.findByGender(gender);
+//    }
+
+
+    //Aynı methodun custom versiyonu.
     @GetMapping("/find/{gender}")
     public List<Customer> findByGender(@PathVariable("gender") Customer.Gender gender){
-        return  this.customerRepo.findByGender(gender);
+        return  this.customerRepo.getQueryByGender(gender);
     }
 }
