@@ -47,7 +47,7 @@ pipeline {
        stage('Docker Push') {
            steps {
                // Push Docker image to Docker registry
-               withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+               withCredentials([usernamePassword( credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                    sh 'docker login -u neseilhan -p nesenese1234'
                    sh 'docker tag spring_project1:latest neseilhan/spring_project1:latest'
                    sh 'docker push neseilhan/spring_project1:latest'
