@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the packaged JAR file into the container
 COPY target/spring-0.0.1-SNAPSHOT.jar app.jar
 
+
+RUN apt-get update && apt-get install -y maven
+
 # Expose the port that your Spring Boot app will run on
 EXPOSE 8080
 
