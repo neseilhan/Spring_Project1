@@ -1,23 +1,20 @@
 # Use an official OpenJDK runtime as a parent image
 FROM openjdk:17-jdk-slim
+WORKDIR /workdir/server
+COPY pom.xml /workdir/server/pom.xml
+RUN mvn dependency:go-offline
 
-# Set the working directory in the container
-WORKDIR /app
+# install Docker tools (cli, buildx, compose)
+COPY --from=gloursdocker/docker / /
+CMD ["mvn", "spring-boot:run"]
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven
+FROM builder as prepare-production
+RUN mkdir -p target/dependency
+WORKDIR /workdir/server/target/dependency
+RUN jar -xf ../*.jar
 
-# Copy the pom.xml file to the container
-COPY pom.xml /app/
-
-# Copy the source code to the container
-COPY src /app/src
-
-# Run Maven to build the project
+COPY src /workdir/server/src
 RUN mvn install
-
-# Copy the packaged JAR file into the container
-COPY target/spring-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port that your Spring Boot app will run on
 EXPOSE 8080
